@@ -43,7 +43,7 @@
 //Anfangsvariablen initiieren und festlegen
 
   //Version
-  version = "0.1";
+  version = "0.2";
   
   //Nicht ändern
   taskcounter = 0;
@@ -85,14 +85,19 @@ function createEvent(id) {
     selected = id;
   } else {
 
-  events = 1;
+  //Wie viele events gibt es bisher?
+  events = 4;
   selected = Math.floor((Math.random() * events) + 1);
 
   }
 
   if(selected == 1) {
 
-    addTask("text", "Die Gruppe kommt an einem Bach vorbei, jedoch scheint in diesem... Bier zu fließen?!");
+    alklist = new Array("Bier","Wein","Vodka","Absinth","Korn");
+    alk = alklist[Math.floor((Math.random() * alklist.length) + 1)];
+
+    addTask("text", "Die Gruppe kommt an einem Bach vorbei.");
+    addTask("text", "In diesem scheint... " + alk + " zu fließen?!");
 
     //Hälfte der Spieler
     half = Math.floor(p.length/2);
@@ -140,50 +145,47 @@ function createEvent(id) {
     }
 
 
-  } else {
+  } else if(selected == 2) {
 
-    //Das Bierbrunnenevent als Notfall, wenn keine id gegeben ist
+    name = Math.floor((Math.random() * p.length) + 1);
+    addTask("text", p[name]["name"] + " kommt vom Weg ab.");
 
-    addTask("text", "Die Gruppe findet einen Bierbrunnen!");
+    alklist = new Array("Junggesellenabschied", "masturbierenden Opa", "heulenden Jungen", "halluzinierenden Affen");
+    alk = alklist[Math.floor((Math.random() * alklist.length) + 1)];
 
-    half = Math.floor(p.length/2);
+    addTask("text", p[name]["name"] + " trifft auf einen " + alk + ", der Shots verteilt!");
+    addTask("textImportant", p[name]["name"] + " trinkt einen Shot seiner Wahl.");
 
-    players = randomPlayers(half);
+  } else if (selected == 3) {
 
-    var text;
+    players = randomPlayers(2);
 
-    if(players.length > 1) {
+    addTask("text", "Aber was ist das? Ihr kommt bei " + p[players[0]]["name"] + " zu Hause vorbei!");
+    addTask("text", p[players[1]]["name"] + " beschließt dort mit " + p[players[0]]["name"] + " eine Pause zu machen.");  
+    addTask("textImportant", "Alle außer " + p[players[0]]["name"] + " und " + p[players[1]]["name"] + " trinken!");
 
-      for (i = 0; i < players.length; i++) {  
+  } else if (selected == 4) {
 
-        if (i == players.length-1) {
-          text = text + "und " + p[players[i]]["name"];
-        } else if (i == players.length-2) {
-          text = text + p[players[i]]["name"] + " ";
-        } else {
-          text = text + p[players[i]]["name"] + ", ";
-        }
+    players = randomPlayers(2);
+ 
+    addTask("text", "Ahhhh! Plötzlich schreit " + p[players[0]]["name"] + "!");
+    addTask("text", p[players[0]]["name"] + " findet eine Schlange am Wegrand. " + p[players[1]]["name"] + " soll sie verjagen...");  
+    addTask("text", "Die Schlange beißt " + p[players[1]]["name"] + "!");
+    addTask("textImportant", p[players[1]]["name"] + " ist unter der Gürtellinie nun partiell gelähmt!");
 
-        p[players[i]]["drinks"] = p[players[i]]["drinks"]+1;
+    p[players[1]]["nosex"] = "true";
 
-      }
+  } else if (selected == 5) {
 
-      text = text.replace('undefined','');
-      addTask("text", text + " werden total durstig und wollen unbedingt Alkohol!")
-      addTask("textImportant", text + " trinken jeweils einen großen Schluck ihres Getränkes.")
+    name = Math.floor((Math.random() * p.length) + 1);
 
-    } else {
+    addTask("text", "Um die Ecke herum erkennt die Gruppe einen Turm.");
+    addTask("text", "Sie kommen tatsächlich am NSG vorbei!");
+    addTask("text", "Tomek Lucas kommt mit einem großen Becher Ethanol aus dem Chemieraum...");
+    addTask("text", "'Trinken Sie einen Schluck, " + p[name]["name"] + "!', sagt er.");  
+    addTask("textImportant", p[name]["name"] + " hat nun die Wahl zwischen weglaufen oder trinken!");
 
-      text = p[players[0]]["name"]
-      p[players[0]]["drinks"] = p[players[0]]["drinks"]+1;
-
-      text = text.replace('undefined','');
-      addTask("text", text + " wird total durstig und will unbedingt Alkohol!")
-      addTask("textImportant", text + " trinkt einen großen Schluck.")
-
-    }
-
-
+  } else  {
 
   }
 
@@ -218,7 +220,7 @@ function randomPlayers(number) {
 function initialize() {
 
   //Startfunktion
-  addTask("text", "Willkommen zu SuffAbenteuer, Version " + version + "!");
+  addTask("text", "Willkommen zu SuffAbenteuer, Version " + version + " von Paul Steege!");
 
   //Normalen Text wiedergeben
   addTask("text", "Bitte gebe als nächstes die Anzahl der Spieler, ihr Geschlecht und ihre Namen ein!");

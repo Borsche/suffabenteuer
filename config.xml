@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<widget xmlns   = "http://www.w3.org/ns/widgets"
+    xmlns:gap   = "http://phonegap.com/ns/1.0"
+    id          = ""
+    versionCode = "10"
+    version     = "1.0.0" >
+
+<!-- versionCode is optional and Android only -->
+
+  <name>SuffAbenteuer</name>
+
+  <description>
+      Ein lustiges Partytrinkspiel für eine unbegrenzte Anzahl an Spielern!
+  </description>
+
+  <author email="paul.steege@gmx.de">
+      Paul Steege
+  </author>
+
+  <platform name="android">
+    <icon src="img/icon.png" width="260" height="260" />
+  </platform>
+
+</widget>

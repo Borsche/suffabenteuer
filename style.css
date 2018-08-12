@@ -24,7 +24,7 @@ html, body {
 .text {
 	margin: 10px;
 	position: absolute;
-	font-size: 40px;
+	font-size: larger;
 }
 .header {
 	text-align: center;
@@ -32,7 +32,7 @@ html, body {
 }
 .header-text {
 	color: #d2dae2;
-	font-size: 60px;
+	font-size: xx-large;
 }
 #outPopUp {
   position: absolute;
@@ -41,7 +41,6 @@ html, body {
   z-index: 15;
 }
 .playerinput, .playersubmit, .playerpdsubmit, .eventend {
-	height: 40px;
 	margin-right: 20px;
 	padding: 0px;
 	text-align: center;
@@ -50,7 +49,7 @@ html, body {
 	background: #d2dae2;
 	color: #1e272e;
 	font-family: 'VT323', monospace;
-	font-size: 30px;
+	font-size: larger;
 }
 .playersubmit, .playerpdsubmit, .eventend {
 	width: 100px;
@@ -60,7 +59,6 @@ html, body {
 	color: #34e7e4;
 }
 .playername, .playersex {
-	height: 40px;
 	margin-right: 20px;
 	padding: 0px;
 	text-align: center;
@@ -69,7 +67,7 @@ html, body {
 	background: #d2dae2;
 	color: #1e272e;
 	font-family: 'VT323', monospace;
-	font-size: 30px;
+	font-size: larger;
 }
 .important {
 	color: #ef5777;

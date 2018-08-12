@@ -70,10 +70,6 @@ $(document).ready(function(){
     if (tasklist.length > taskcounter) {
       doTask(taskcounter);
     }
-
-  //Scrollbar immer ganz unten
-  var messageBody = document.querySelector('#outPopUp');
-  messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
     
   }, 2000);
 
@@ -286,6 +282,10 @@ function pushText(text) {
   //Counter der Linien
   lines = lines+1;
 
+  //Scrollbar immer ganz unten
+  var messageBody = document.querySelector('#outPopUp');
+  messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+
 }
 
 function pushTextImportant(text) {
@@ -294,6 +294,10 @@ function pushTextImportant(text) {
   $('#line' + lines).textillate({ in: { effect: 'fadeInLeft', delay: 20 } });
 
   lines = lines+1;
+
+  //Scrollbar immer ganz unten
+  var messageBody = document.querySelector('#outPopUp');
+  messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
 
 }
 
@@ -336,6 +340,10 @@ function pushForm(text) {
     $(".eventend").slideDown();
 
   }
+
+  //Scrollbar immer ganz unten
+  var messageBody = document.querySelector('#outPopUp');
+  messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
 
 }
 

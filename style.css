@@ -59,10 +59,9 @@ html, body {
 	color: #34e7e4;
 }
 .playername, .playersex {
-	margin-right: 20px;
 	padding: 0px;
 	text-align: center;
-	width: 150px;
+	width: 120px;
 	border: none;
 	background: #d2dae2;
 	color: #1e272e;

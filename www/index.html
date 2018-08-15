@@ -11,10 +11,11 @@
 <script src="js/jquery.min.js"></script>
 <script src="js/lettering.js"></script>
 <script src="js/text.js"></script>
+<script src="js/typed.min.js"></script>
 <script src="cordova.js"></script>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>SuffPotatoes</title>
+	<title>SuffAbenteuer</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 
@@ -24,7 +25,7 @@
 
   <div class="header">
 
-    <span class="header-text">SuffAbenteuer</span>
+    <span class="header-text"></span>
 
   </div>
 
@@ -62,7 +63,13 @@ $(document).ready(function(){
   initialize();
 
   //Animation des Headers
-  $('.header-text').textillate({ in: { effect: 'fadeInLeft', delay: 20 } });
+  //$('.header-text').textillate({ in: { effect: 'fadeInLeft', delay: 20 } });
+
+    var typed = new Typed('.header-text', {
+    strings: [" SuffAbenteuer "],
+    typeSpeed: 10,
+    showCursor: false
+    });
 
   //Ausführen von Tasks alle x Millisekunden
   setInterval(function() {
@@ -86,7 +93,7 @@ function createEvent(id) {
   } else {
 
   //Wie viele events gibt es bisher?
-  events = 4;
+  events = 5;
   selected = Math.floor((Math.random() * events) + 1);
 
   }
@@ -278,9 +285,18 @@ function doTask(id) {
 function pushText(text) {
 
   //Eine neue Linie hinzufügen
-  $( ".text" ).append("<span class='line' id='line" + lines + "'>" + text + "</span><br>");
-  //Die Linie animieren
-  $('#line' + lines).textillate({ in: { effect: 'fadeInLeft', delay: 20 } });
+  $( ".text" ).append("<span class='line' id='line" + lines + "'></span><br>");
+
+  //Die Linie animieren - veraltet
+  //$('#line' + lines).textillate({ in: { effect: 'fadeInLeft', delay: 20 } });
+
+  //Buchstaben einzeln
+  var typed = new Typed('#line' + lines, {
+    strings: [text],
+    typeSpeed: 10,
+    showCursor: false
+  });
+
 
   //Counter der Linien
   lines = lines+1;
@@ -293,8 +309,15 @@ function pushText(text) {
 
 function pushTextImportant(text) {
 
-  $( ".text" ).append("<span class='line important' id='line" + lines + "'>" + text + "</span><br>");
-  $('#line' + lines).textillate({ in: { effect: 'fadeInLeft', delay: 20 } });
+  $( ".text" ).append("<span class='line important' id='line" + lines + "'></span><br>");
+
+  var typed = new Typed('#line' + lines, {
+    strings: [text],
+    typeSpeed: 10,
+    showCursor: false
+  });
+
+  //$('#line' + lines).textillate({ in: { effect: 'fadeInLeft', delay: 20 } });
 
   lines = lines+1;
 

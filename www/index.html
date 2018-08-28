@@ -337,7 +337,7 @@ function pushForm(text) {
     //Formular für die Anzahl der Spieler
     $( ".text" ).append("<span class='line' id='line" + lines + "'>" + "<input class='playerinput playerline' name='playercount' value='" + players + "' type='text'><button class=' playerline playersubmit' onClick='playerSubmit();' type='button'>Weiter</button>" + "</span><br class='playerline'>");
     $(".playerline").hide();
-    $(".playerline").slideDown();
+    $(".playerline").show();
 
     lines = lines+1;
 
@@ -358,14 +358,14 @@ function pushForm(text) {
 
     $(".playernameline").hide();
 
-    $(".playernameline").show("slow");
+    $(".playernameline").show();
 
   } else if (text == "event") {
 
     //"Weiter"-Button nach einem Event
     $( ".text" ).append("<button class='eventend' onClick='eventEnd();' type='button'>Weiter</button>" + "</span><br class='eventend'>");
     $(".eventend").hide();
-    $(".eventend").slideDown();
+    $(".eventend").show();
 
   }
 
@@ -379,7 +379,7 @@ function pushForm(text) {
 function playerSubmit() {
 
     players = $(".playerinput").val();
-    $(".playerline").show();
+    $(".playerline").remove();
 
     addTask("text", "Ihr seid also ganze " + players + " Spieler? Na das kann ja was werden...");
     addTask("textImportant", "Nun gut, jetzt muss ich noch eure Namen und eure Geschlechter wissen:");

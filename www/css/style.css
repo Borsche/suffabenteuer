@@ -16,8 +16,8 @@ html, body {
 
 }
 .container {
-	background: #1e272e;
-	color: #d2dae2;
+	color: #ffffff;
+	text-shadow: 1px 1px #000000;
 	position: relative;
 	overflow: auto;
 }
@@ -80,7 +80,19 @@ html, body {
 	font-size: larger;	
 }
 .important {
-	color: #ef5777;
+	color: #48dbfb;
+}
+.background {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left:0;
+	background-size: cover;
+}
+.layer1 {
+	z-index: 1;
+	background-image: url(../img/mountain/parallax-mountain-bg.png);
 }
 
 @media screen and (orientation:portrait) {

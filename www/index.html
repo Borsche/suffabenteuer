@@ -21,6 +21,8 @@
 
 <body>
 
+<div class="background layer1"></div>
+
 <div class="container" id="outPopUp">
 
   <div class="header">
@@ -377,7 +379,7 @@ function pushForm(text) {
 function playerSubmit() {
 
     players = $(".playerinput").val();
-    $(".playerline").slideUp();
+    $(".playerline").show();
 
     addTask("text", "Ihr seid also ganze " + players + " Spieler? Na das kann ja was werden...");
     addTask("textImportant", "Nun gut, jetzt muss ich noch eure Namen und eure Geschlechter wissen:");

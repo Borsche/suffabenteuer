@@ -22,6 +22,10 @@
 <body>
 
 <div class="background layer1"></div>
+<div class="background layer2"></div>
+<div class="background layer3"></div>
+<div class="background layer4"></div>
+<div class="background layer5"></div>
 
 <div class="container" id="outPopUp">
 
@@ -53,6 +57,10 @@
   lines = 0;
   var tasklist = [];
   var p = [];
+  layer2 = false;
+  layer3 = false;
+  layer4 = false;
+  layer5 = false;
 
   //Standardspieleranzahl
   players = 5;
@@ -80,11 +88,63 @@ $(document).ready(function(){
     if (tasklist.length > taskcounter) {
       doTask(taskcounter);
     }
+
+  //Animation des Hintergrundes
+  animateBackground();
     
   }, 2000);
 
 
 });  
+
+function animateBackground() {
+
+
+if(layer3 == false) {
+  layer3 = true;
+  $('.layer3').animate({
+      left: '-=100', // move 500px to the right
+  }, 5000, function() {
+
+  $('.layer3').animate({
+      left: '+=100', // move 500px to the right
+  }, 5000, function() {
+    layer3 = false;
+  });
+
+  });
+} 
+if(layer4 == false) {
+  layer4 = true;
+  $('.layer4').animate({
+      left: '-=200', // move 500px to the right
+  }, 5000, function() {
+
+  $('.layer4').animate({
+      left: '+=200', // move 500px to the right
+  }, 5000, function() {
+    layer4 = false;
+  });
+
+  });
+} 
+if(layer5 == false) {
+  layer5 = true;
+  $('.layer5').animate({
+      left: '-=300', // move 500px to the right
+  }, 5000, function() {
+
+  $('.layer5').animate({
+      left: '+=300', // move 500px to the right
+  }, 5000, function() {
+    layer5 = false;
+  });
+
+  });
+} 
+
+
+}
 
 //Erstellen von events
 function createEvent(id) {

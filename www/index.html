@@ -155,15 +155,17 @@ function createEvent(id) {
   } else {
 
   //Wie viele events gibt es bisher?
-  events = 5;
+  events = 6;
   selected = Math.floor((Math.random() * events) + 1);
 
   }
 
+  drinkcount = Math.floor((Math.random() * 8) + 2);
+
   if(selected == 1) {
 
     alklist = new Array("Bier","Wein","Vodka","Absinth","Korn");
-    alk = alklist[Math.floor((Math.random() * alklist.length) + 1)];
+    alk = alklist[Math.floor((Math.random() * alklist.length) + 1) - 1];
 
     addTask("text", "Die Gruppe kommt an einem Bach vorbei.");
     addTask("text", "In diesem scheint... " + alk + " zu fließen?!");
@@ -192,38 +194,39 @@ function createEvent(id) {
         }
 
         //Shotcounter um 1 erhöhen
-        p[players[i]]["drinks"] = p[players[i]]["drinks"]+1;
+        p[players[i]]["drinks"] = p[players[i]]["drinks"]+drinkcount;
 
       }
 
       text = text.replace('undefined','');
       addTask("text", text + " werden total durstig und wollen unbedingt Alkohol!")
-      addTask("textImportant", text + " trinken jeweils einen großen Schluck ihres Getränkes.")
+      addTask("textImportant", text + " trinken jeweils " + drinkcount + " Schlücke ihres Getränkes.")
 
     } else {
 
       //Nur ein ausgewählter Spieler
 
       text = p[players[0]]["name"]
-      p[players[0]]["drinks"] = p[players[0]]["drinks"]+1;
+      p[players[0]]["drinks"] = p[players[0]]["drinks"]+drinkcount;
 
       text = text.replace('undefined','');
       addTask("text", text + " wird total durstig und will unbedingt Alkohol!")
-      addTask("textImportant", text + " trinkt einen großen Schluck.")
+      addTask("textImportant", text + " trinkt " + drinkcount + " Schlücke.")
 
     }
 
 
   } else if(selected == 2) {
 
-    name = Math.floor((Math.random() * p.length) + 1);
+    name = Math.floor((Math.random() * p.length) + 1)-1;
     addTask("text", p[name]["name"] + " kommt vom Weg ab.");
 
-    alklist = new Array("Junggesellenabschied", "masturbierenden Opa", "heulenden Jungen", "halluzinierenden Affen");
-    alk = alklist[Math.floor((Math.random() * alklist.length) + 1)];
+    alklist = new Array("Junggesellenabschied", "betrunkenen Greis", "heulenden Buben", "halluzinierenden Affen");
+    alk = alklist[Math.floor((Math.random() * alklist.length) + 1)-1];
 
     addTask("text", p[name]["name"] + " trifft auf einen " + alk + ", der Shots verteilt!");
-    addTask("textImportant", p[name]["name"] + " trinkt einen Shot seiner Wahl.");
+    addTask("textImportant", p[name]["name"] + " trinkt " + drinkcount + " Schlücke.");
+    p[name]["drinks"] = p[name]["drinks"]+drinkcount;
 
   } else if (selected == 3) {
 
@@ -231,7 +234,7 @@ function createEvent(id) {
 
     addTask("text", "Aber was ist das? Ihr kommt bei " + p[players[0]]["name"] + " zu Hause vorbei!");
     addTask("text", p[players[1]]["name"] + " beschließt dort mit " + p[players[0]]["name"] + " eine Pause zu machen.");  
-    addTask("textImportant", "Alle außer " + p[players[0]]["name"] + " und " + p[players[1]]["name"] + " trinken!");
+    addTask("textImportant", "Alle außer " + p[players[0]]["name"] + " und " + p[players[1]]["name"] + " trinken einen Schluck!");
 
   } else if (selected == 4) {
 
@@ -246,15 +249,39 @@ function createEvent(id) {
 
   } else if (selected == 5) {
 
-    name = Math.floor((Math.random() * p.length) + 1);
+    name = Math.floor((Math.random() * p.length) + 1)-1;
 
     addTask("text", "Um die Ecke herum erkennt die Gruppe einen Turm.");
     addTask("text", "Sie kommen tatsächlich am NSG vorbei!");
     addTask("text", "Tomek Lucas kommt mit einem großen Becher Ethanol aus dem Chemieraum...");
     addTask("text", "'Trinken Sie einen Schluck, " + p[name]["name"] + "!', sagt er.");  
-    addTask("textImportant", p[name]["name"] + " hat nun die Wahl zwischen weglaufen oder trinken!");
+    if(Math.floor((Math.random() * 2) + 3) == 3) {
+      addTask("textImportant", p[name]["name"] + " ergreift die Flucht! Wer bleibt schon freiwillig in der Schule..."); 
+      p[name]["runaway"] = p[name]["runaway"]+1;
+    } else {
+      addTask("text", "Dieses Angebot ist für " + p[name]["name"] + " natürlich schwer auszuschlagen."); 
+      addTask("textImportant", p[name]["name"] + " trinkt " + drinkcount + " Schlücke!");
+      p[name]["drinks"] = p[name]["drinks"]+drinkcount;
+    }
 
-  } else  {
+  } else if (selected == 6) {
+
+    name = Math.floor((Math.random() * p.length) + 1)-1;
+    addTask("text", "Ein großes Schild mit der Aufschrift 'Freudenhaus' taucht um die Ecke auf.");
+    if(p[name]["nosex"] == true) {
+        addTask("text", p[name]["name"] + " wird total traurig, da er aufgrund seiner Lähmung impotent ist.");
+        addTask("textImportant", p[name]["name"] + " trinkt einen Schluck!");
+    } else {
+      addTask("text", p[name]["name"] + " sprintet los und betritt das Freundenhaus.");
+      addTask("text", "Und "+  p[name]["name"] + " legt los...");
+      addTask("text", "...");
+      addTask("text", "...");
+      addTask("text", "...");
+      addTask("text", "Wow, "+ p[name]["name"] + " hat ganze " + Math.floor((Math.random() * 60) + 2) + " Sekunden durchgehalten!");
+      addTask("text", "Für diese Leistung spendiert der Wirt einen Drink!");
+      addTask("textImportant", p[name]["name"] + " trinkt " + drinkcount + " Schlücke!");
+      p[name]["drinks"] = p[name]["drinks"]+drinkcount;
+    }
 
   }
 
@@ -460,6 +487,7 @@ function pdSubmit() {
     pd["name"] = $("#playername"+i).val();
     pd["sex"] = $("#playersex"+i).val();
     pd["drinks"] = 0;
+    pd["runaway"] = 0;
 
     //Dieses Array in p einfügen
     p[i] = pd;

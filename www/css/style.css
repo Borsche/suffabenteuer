@@ -146,6 +146,9 @@ html, body {
 	color: #48dbfb;
 }
 
+/* Remove in APP */
+/*
+
 @media only screen and (max-width: 1080px) {
 	.game-wrapper {
 	    width: 100%;
@@ -190,6 +193,8 @@ html, body {
 		width: 240px;
 	}
 }
+
+*/
 
 @media screen and (orientation:portrait) {
 

@@ -26,13 +26,15 @@ html, body {
 	z-index: 0;
 	filter:blur(5px);
 }
+
 .game-wrapper {
-    width: 450px;
+    /* Remove in App width: 450px; */
+    width: 100%;
     height: 100%;
     background: #F7F7F7;
-    border-left: 1px solid #D2D5D7;
-    border-right: 1px solid #D2D5D7;
-    margin: 0 auto;
+    /* Remove in App border-left: 1px solid #D2D5D7; */
+    /* Remove in Appborder-right: 1px solid #D2D5D7; */
+    /* Remove in App margin: 0 auto; */
     position: relative;
 }
 .container {

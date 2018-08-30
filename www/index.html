@@ -9,17 +9,40 @@
 
 <link rel="stylesheet" href="css/animate.min.css">
 <script src="js/jquery.min.js"></script>
+<script src="js/jquery-ui.min.js"></script>
 <script src="js/lettering.js"></script>
-<script src="js/text.js"></script>
 <script src="js/typed.min.js"></script>
 <script src="cordova.js"></script>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>SuffAbenteuer</title>
+
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css">
+
 </head>
 
 <body>
+
+<div id="dialog-message" title="Credits">
+  <p>
+    Vielen Dank:
+  </p>
+  <p>
+    Kevin MacLeod (incompetech.com) für:<br>
+    "Adventure Meme" <br>
+    Licensed under Creative Commons: By Attribution 3.0 License
+    http://creativecommons.org/licenses/by/3.0/
+  </p>
+  <p>
+    Lettering.js <br>
+    http://letteringjs.com/
+  </p>
+  <p>
+    Typed.js <br>
+    https://mattboldt.com/demos/typed-js/
+  </p>
+</div>
 
 <div class="background layer1"></div>
 <div class="background layer2"></div>
@@ -68,6 +91,17 @@
 //Nach dem Laden des Dokumentes
 
 $(document).ready(function(){
+
+  //Musik starten
+  var audio = new Audio('music/adventure.mp3');
+  audio.volume = 0.3;
+  audio.loop = true;
+  audio.play();
+
+  //Dialog für Credits initialisieren
+  $( "#dialog-message" ).dialog({
+    autoOpen: false
+  });
 
   //Funktion zum Starten des Spiels
   initialize();
@@ -268,6 +302,7 @@ function createEvent(id) {
 
     name = Math.floor((Math.random() * p.length) + 1)-1;
     addTask("text", "Ein großes Schild mit der Aufschrift 'Freudenhaus' taucht um die Ecke auf.");
+    console.log(p[name]["name"] + " nosex = " + p[name]["nosex"]);
     if(p[name]["nosex"] == true) {
         addTask("text", p[name]["name"] + " wird total traurig, da er aufgrund seiner Lähmung impotent ist.");
         addTask("textImportant", p[name]["name"] + " trinkt einen Schluck!");
@@ -318,6 +353,9 @@ function initialize() {
   //Startfunktion
   addTask("text", "Willkommen zu SuffAbenteuer, Version " + version + " von Paul Steege!");
 
+  //Credits
+  addTask("text", "Vollständige Credits: <a class='showcredits' onClick='showCredits();'>Klicke hier</a>")
+
   //Normalen Text wiedergeben
   addTask("text", "Bitte gebe als nächstes die Anzahl der Spieler, ihr Geschlecht und ihre Namen ein!");
 
@@ -329,6 +367,10 @@ function initialize() {
 
 }
 
+//ShowCredits
+function showCredits() {
+    $("#dialog-message").dialog('open');
+}
 
 function addTask(type, object, object2) {
 
@@ -373,6 +415,11 @@ function doTask(id) {
 
 function pushText(text) {
 
+  var typing = new Audio('music/typing.mp3');
+  typing.playbackRate = 2;
+  typing.loop = true;
+  typing.play();
+
   //Eine neue Linie hinzufügen
   $( ".text" ).append("<span class='line' id='line" + lines + "'></span><br>");
 
@@ -383,7 +430,11 @@ function pushText(text) {
   var typed = new Typed('#line' + lines, {
     strings: [text],
     typeSpeed: 10,
-    showCursor: false
+    showCursor: true,
+    onComplete: (self) => {
+      typing.pause();
+      $(".typed-cursor").remove();
+    }
   });
 
 
@@ -398,12 +449,28 @@ function pushText(text) {
 
 function pushTextImportant(text) {
 
+  var typing = new Audio('music/typing.mp3');
+  typing.playbackRate = 2;
+  typing.loop = true;
+  typing.play();
+
+  var alarm = new Audio('music/alarm.wav');
+  typing.playbackRate = 2;
+  alarm.volume = 0.4;
+  alarm.loop = true;
+  alarm.play();
+
   $( ".text" ).append("<span class='line important' id='line" + lines + "'></span><br>");
 
   var typed = new Typed('#line' + lines, {
     strings: [text],
     typeSpeed: 10,
-    showCursor: false
+    showCursor: true,
+    onComplete: (self) => {
+      typing.pause();
+      alarm.pause();
+      $(".typed-cursor").remove();
+    }
   });
 
   //$('#line' + lines).textillate({ in: { effect: 'fadeInLeft', delay: 20 } });

@@ -1,0 +1,212 @@
+@font-face { 
+font-family: "VT323"; 
+src: url("VT323-Regular.ttf"); 
+}
+
+html, body {
+	margin: 0;
+	width: 100%;
+	height: 100%;
+	background: #1e272e;
+
+
+    font-family: 'VT323', monospace;
+    overflow: hidden;
+}
+.body-background {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+
+	background-image: url(../img/mountain/parallax-mountain-bg.png);
+	background-size: cover;
+
+	z-index: 0;
+	filter:blur(5px);
+}
+.game-wrapper {
+    width: 450px;
+    height: 100%;
+    background: #F7F7F7;
+    border-left: 1px solid #D2D5D7;
+    border-right: 1px solid #D2D5D7;
+    margin: 0 auto;
+    position: relative;
+}
+.container {
+	color: #ffffff;
+	text-shadow: 1px 1px #000000;
+	position: relative;
+	overflow: auto;
+}
+.text {
+	margin: 10px;
+	position: absolute;
+	font-size: larger;
+}
+.header {
+	text-align: center;
+	padding: 10px;
+}
+.header-text {
+	color: #ffffff;
+	font-size: xx-large;
+	text-shadow: 5px 5px #000000;
+}
+#outPopUp {
+  width: 100%;
+  height: 85%;
+  z-index: 15;
+}
+.playerinput, .playersubmit, .playerpdsubmit, .eventend {
+	margin-right: 20px;
+	padding: 0px;
+	text-align: center;
+	width: 50px;
+	border: none;
+	background: #ffffff;
+	color: black;
+	font-family: 'VT323', monospace;
+	font-size: larger;
+}
+.playersubmit, .playerpdsubmit, .eventend {
+	width: 100px;
+}
+.playersubmit:hover, .playerpdsubmit:hover, .eventend:hover {
+	cursor: pointer;
+	color: #48dbfb;
+	text-shadow: 1px 1px #000000;
+	transition: 0.2s;
+}
+.playername {
+	padding: 0px;
+	height: 30px;
+	text-align: center;
+	width: 120px;
+	border: none;
+	background: #d2dae2;
+	color: #1e272e;
+	font-family: 'VT323', monospace;
+	font-size: larger;
+	margin-right: 10px;
+}
+.playernameline {
+	line-height: 30px;
+}
+.playersex {
+	padding: 0px;
+	height: 30px;
+	text-align: center;
+	border: none;
+	background: #d2dae2;
+	color: #1e272e;
+	font-family: 'VT323', monospace;
+	font-size: 23px;	
+}
+.important {
+	color: #48dbfb;
+	background: rgba(60,41,54,0.6);
+}
+.background {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left:0;
+	background-size: cover;
+	background-repeat: repeat-x;
+}
+.layer1 {
+	z-index: 1;
+	background-image: url(../img/mountain/parallax-mountain-bg.png);
+}
+.layer2 {
+	z-index: 2;
+	background-image: url(../img/mountain/parallax-mountain-montain-far.png);
+}
+.layer3 {
+	/*width: calc(100% + 100px);*/
+	z-index: 3;
+	background-image: url(../img/mountain/parallax-mountain-mountains.png);
+}
+.layer4 {
+	/*width: calc(100% + 200px);*/
+	z-index: 4;
+	background-image: url(../img/mountain/parallax-mountain-trees.png);
+}
+.layer5 {
+	/*width: calc(100% + 300px);*/
+	z-index: 5;
+	background-image: url(../img/mountain/parallax-mountain-foreground-trees.png);	
+}
+.showcredits:hover {
+	cursor: pointer;
+	color: #48dbfb;
+}
+
+@media only screen and (max-width: 1080px) {
+	.game-wrapper {
+	    width: 100%;
+	}
+	.playername {
+		padding: 0px;
+		height: 60px;
+		font-size: 60px;
+		margin-right: 10px;
+	}
+	.playernameline {
+		line-height: 60px;
+	}
+	.playersex {
+		height: 60px;
+		font-size: 53px;	
+	}
+	.text {
+		font-size: 60px;
+	}
+	.header-text {
+		font-size: 80px;
+	}
+	.playerinput, .playersubmit, .playerpdsubmit, .eventend {
+		margin-right: 20px;
+		padding: 0px;
+		text-align: center;
+		width: 200px;
+		border: none;
+		background: #ffffff;
+		color: black;
+		font-family: 'VT323', monospace;
+		font-size: 53px;
+	}
+	.playersubmit, .playerpdsubmit, .eventend {
+		width: 200px;
+	}
+	.playerpdsubmit {
+		height: 60px;
+	}
+	.playername {
+		width: 240px;
+	}
+}
+
+@media screen and (orientation:portrait) {
+
+}
+
+/*
+@media screen and (orientation:landscape) {
+
+#outPopUp {
+  position: absolute;
+  width: 500px;
+  height: 800px;
+  z-index: 15;
+  top: 50%;
+  left: 50%;
+  margin: -400px 0 0 -250px;
+}
+
+}
+*/

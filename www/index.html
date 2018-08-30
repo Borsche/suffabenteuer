@@ -1,0 +1,638 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+
+
+
+
+<link rel="stylesheet" href="css/animate.min.css">
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery-ui.min.js"></script>
+<script src="js/lettering.js"></script>
+<script src="js/typed.min.js"></script>
+<script src="cordova.js"></script>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>SuffAbenteuer</title>
+
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css">
+
+</head>
+
+<body>
+
+<div class="body-background"></div>
+
+<div class="game-wrapper">
+
+  <div id="dialog-message" title="Credits">
+    <p>
+      Vielen Dank:
+    </p>
+    <p>
+      Kevin MacLeod (incompetech.com) für:<br>
+      "Adventure Meme" <br>
+      Licensed under Creative Commons: By Attribution 3.0 License
+      http://creativecommons.org/licenses/by/3.0/
+    </p>
+    <p>
+      Lettering.js <br>
+      http://letteringjs.com/
+    </p>
+    <p>
+      Typed.js <br>
+      https://mattboldt.com/demos/typed-js/
+    </p>
+  </div>
+
+  <div class="background layer1"></div>
+  <div class="background layer2"></div>
+  <div class="background layer3"></div>
+  <div class="background layer4"></div>
+  <div class="background layer5"></div>
+
+  <div class="container" id="outPopUp">
+
+    <div class="header">
+
+      <span class="header-text">SuffAbenteuer</span>
+
+    </div>
+
+    <div class="text">
+
+
+    </div>
+
+  <div class="block">
+  </div>
+
+  </div>
+
+</div>
+
+<script type="text/javascript">
+
+//Anfangsvariablen initiieren und festlegen
+
+  //Version
+  version = "0.3";
+  
+  //Nicht ändern
+  taskcounter = 0;
+  lines = 0;
+  var tasklist = [];
+  var p = [];
+  layer2 = false;
+  layer3 = false;
+  layer4 = false;
+  layer5 = false;
+  var wait;
+
+  //Standardspieleranzahl
+  players = 5;
+
+//Nach dem Laden des Dokumentes
+
+$(document).ready(function(){
+
+  //Musik starten
+  var audio = new Audio('music/adventure.mp3');
+  audio.volume = 0.3;
+  audio.loop = true;
+  audio.play();
+
+  //Dialog für Credits initialisieren
+  $( "#dialog-message" ).dialog({
+    autoOpen: false
+  });
+
+  //Funktion zum Starten des Spiels
+  initialize();
+
+  //Ausführen von Tasks alle x Millisekunden
+  setInterval(function() {
+
+    //Gucken, ob es noch Tasks auszuführen gibt
+    if (tasklist.length > taskcounter) {
+      if (wait == "true") {
+
+      } else {
+        doTask(taskcounter);
+      }
+    }
+
+    //Remove in app audio.play();
+
+  var messageBody = document.querySelector('#outPopUp');
+  messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+
+  //Animation des Hintergrundes
+  //animateBackground();
+    
+  }, 20);
+
+
+});  
+
+function animateBackground() {
+
+
+if(layer3 == false) {
+  layer3 = true;
+  $('.layer3').animate({
+      left: '-=100', // move 500px to the left
+  }, 5000, function() {
+
+  $('.layer3').animate({
+      left: '+=100', // move 500px to the right
+  }, 5000, function() {
+    layer3 = false;
+  });
+
+  });
+} 
+if(layer4 == false) {
+  layer4 = true;
+  $('.layer4').animate({
+      left: '-=200', // move 500px to the left
+  }, 5000, function() {
+
+  $('.layer4').animate({
+      left: '+=200', // move 500px to the right
+  }, 5000, function() {
+    layer4 = false;
+  });
+
+  });
+} 
+if(layer5 == false) {
+  layer5 = true;
+  $('.layer5').animate({
+      left: '-=300', // move 500px to the left
+  }, 5000, function() {
+
+  $('.layer5').animate({
+      left: '+=300', // move 500px to the right
+  }, 5000, function() {
+    layer5 = false;
+  });
+
+  });
+} 
+
+
+}
+
+//Erstellen von events
+function createEvent(id) {
+
+  //Wenn eine id gegeben ist, wähle dieses event. Sonst erstelle ein random event.
+  if (id !== undefined) {
+    selected = id;
+  } else {
+
+  //Wie viele events gibt es bisher?
+  events = 6;
+  selected = Math.floor((Math.random() * events) + 1);
+
+  }
+
+  drinkcount = Math.floor((Math.random() * 8) + 2);
+
+  if(selected == 1) {
+
+    alklist = new Array("Bier","Wein","Vodka","Absinth","Korn");
+    alk = alklist[Math.floor((Math.random() * alklist.length) + 1) - 1];
+
+    addTask("text", "Die Gruppe kommt an einem Bach vorbei.");
+    addTask("text", "In diesem scheint... " + alk + " zu fließen?!");
+
+    //Hälfte der Spieler
+    half = Math.floor(p.length/2);
+
+    //RandomPlayers sucht "half" zufällige Spieler aus und gibt ein Array mit deren ids wieder
+    players = randomPlayers(half);
+
+    var text;
+
+    //Textformatierung
+    if(players.length > 1) {
+
+      //Mehr als ein ausgewählter Spieler
+
+      for (i = 0; i < players.length; i++) {  
+
+        if (i == players.length-1) {
+          text = text + "und " + p[players[i]]["name"];
+        } else if (i == players.length-2) {
+          text = text + p[players[i]]["name"] + " ";
+        } else {
+          text = text + p[players[i]]["name"] + ", ";
+        }
+
+        //Shotcounter um 1 erhöhen
+        p[players[i]]["drinks"] = p[players[i]]["drinks"]+drinkcount;
+
+      }
+
+      text = text.replace('undefined','');
+      addTask("text", text + " werden total durstig und wollen unbedingt Alkohol!")
+      addTask("textImportant", text + " trinken jeweils " + drinkcount + " Schlücke ihres Getränkes.")
+
+    } else {
+
+      //Nur ein ausgewählter Spieler
+
+      text = p[players[0]]["name"]
+      p[players[0]]["drinks"] = p[players[0]]["drinks"]+drinkcount;
+
+      text = text.replace('undefined','');
+      addTask("text", text + " wird total durstig und will unbedingt Alkohol!")
+      addTask("textImportant", text + " trinkt " + drinkcount + " Schlücke.")
+
+    }
+
+
+  } else if(selected == 2) {
+
+    name = Math.floor((Math.random() * p.length) + 1)-1;
+    addTask("text", p[name]["name"] + " kommt vom Weg ab.");
+
+    alklist = new Array("Junggesellenabschied", "betrunkenen Greis", "heulenden Buben", "halluzinierenden Affen");
+    alk = alklist[Math.floor((Math.random() * alklist.length) + 1)-1];
+
+    addTask("text", p[name]["name"] + " trifft auf einen " + alk + ", der Shots verteilt!");
+    addTask("textImportant", p[name]["name"] + " trinkt " + drinkcount + " Schlücke.");
+    p[name]["drinks"] = p[name]["drinks"]+drinkcount;
+
+  } else if (selected == 3) {
+
+    players = randomPlayers(2);
+
+    addTask("text", "Aber was ist das? Ihr kommt bei " + p[players[0]]["name"] + " zu Hause vorbei!");
+    addTask("text", p[players[1]]["name"] + " beschließt dort mit " + p[players[0]]["name"] + " eine Pause zu machen.");  
+    addTask("textImportant", "Alle außer " + p[players[0]]["name"] + " und " + p[players[1]]["name"] + " trinken einen Schluck!");
+
+  } else if (selected == 4) {
+
+    players = randomPlayers(2);
+ 
+    addTask("text", "Ahhhh! Plötzlich schreit " + p[players[0]]["name"] + "!");
+    addTask("text", p[players[0]]["name"] + " findet eine Schlange am Wegrand. " + p[players[1]]["name"] + " soll sie verjagen...");  
+    addTask("text", "Die Schlange beißt " + p[players[1]]["name"] + "!");
+    addTask("textImportant", p[players[1]]["name"] + " ist unter der Gürtellinie nun partiell gelähmt!");
+
+    p[players[1]]["nosex"] = "true";
+
+  } else if (selected == 5) {
+
+    name = Math.floor((Math.random() * p.length) + 1)-1;
+
+    addTask("text", "Um die Ecke herum erkennt die Gruppe einen Turm.");
+    addTask("text", "Sie kommen tatsächlich am NSG vorbei!");
+    addTask("text", "Tomek Lucas kommt mit einem großen Becher Ethanol aus dem Chemieraum...");
+    addTask("text", "'Trinken Sie davon, " + p[name]["name"] + "!', sagt er.");  
+    if(Math.floor((Math.random() * 2) + 3) == 3) {
+      addTask("textImportant", p[name]["name"] + " ergreift die Flucht! Wer bleibt schon freiwillig in der Schule..."); 
+      p[name]["runaway"] = p[name]["runaway"]+1;
+    } else {
+      addTask("text", "Dieses Angebot ist für " + p[name]["name"] + " natürlich schwer auszuschlagen."); 
+      addTask("textImportant", p[name]["name"] + " trinkt " + drinkcount + " Schlücke!");
+      p[name]["drinks"] = p[name]["drinks"]+drinkcount;
+    }
+
+  } else if (selected == 6) {
+
+    name = Math.floor((Math.random() * p.length) + 1)-1;
+    addTask("text", "Ein großes Schild mit der Aufschrift 'Freudenhaus' taucht um die Ecke auf.");
+    console.log(p[name]["name"] + " nosex = " + p[name]["nosex"]);
+    if(p[name]["nosex"] == "true") {
+        addTask("text", p[name]["name"] + " wird total traurig, da er aufgrund seiner Lähmung impotent ist.");
+        addTask("textImportant", p[name]["name"] + " trinkt einen Schluck!");
+    } else {
+      addTask("text", p[name]["name"] + " sprintet los und betritt das Freudenhaus.");
+      addTask("text", "Und "+  p[name]["name"] + " legt los...");
+      addTask("text", "...");
+      addTask("text", "...");
+      addTask("text", "...");
+      addTask("text", "Wow, "+ p[name]["name"] + " hat ganze " + Math.floor((Math.random() * 60) + 2) + " Sekunden durchgehalten!");
+      addTask("text", "Für diese Leistung spendiert der Wirt einen Drink!");
+      addTask("textImportant", p[name]["name"] + " trinkt " + drinkcount + " Schlücke!");
+      p[name]["drinks"] = p[name]["drinks"]+drinkcount;
+    }
+
+  }
+
+  //Den "Weiter"-Button erstellen
+  addTask("form", "event");
+
+  console.log(players);
+
+}
+
+function randomPlayers(number) {
+
+  //Ein neues Array welches alle Spieler enthält
+  randomplayers = p;
+  //Dieses Array mischen
+  shuffle(randomplayers);
+  var result = [];
+
+    for (i = 0; i < number; i++) {  
+
+      //Die ersten "number" Spieler des Arrays wählen
+
+      result[i] = randomplayers[i]["id"];
+
+    }
+
+  //Das Array mit den ids zurückgeben
+  return result;
+
+}
+
+function initialize() {
+
+  //Startfunktion
+  addTask("text", "Willkommen zu SuffAbenteuer, Version " + version + " von Paul Steege!");
+
+  //Credits
+  addTask("text", "Vollständige Credits: <a class='showcredits' onClick='showCredits();'>Klicke hier</a>")
+
+  //Normalen Text wiedergeben
+  addTask("text", "Bitte gebe als nächstes die Anzahl der Spieler, ihr Geschlecht und ihre Namen ein!");
+
+  //Wichtigen Text wiedergeben
+  addTask("textImportant", "Anzahl Spieler:");
+
+  //Das Formular zur Spieleranzahl anzeigen
+  addTask("form", "players");
+
+}
+
+//ShowCredits
+function showCredits() {
+    $("#dialog-message").dialog('open');
+}
+
+function addTask(type, object, object2) {
+
+  //Die Tasklist ist immer 1 größer als das zuletzt ausgeführte Event
+  id = tasklist.length;
+
+  //Jeder Task bekommt eine id, ein typ und weitere Argumente
+  task = new Array(id, type, object);
+
+  //Diese werden in das Array mit allen Aufgaben eingefügt
+  tasklist[id] = task;
+
+}
+
+function doTask(id) {
+
+  //Den Typ des Tasks überprüfen
+  if (tasklist[id]["1"] == "text") {
+
+    //Text ausgeben
+    pushText(tasklist[id]["2"]);
+
+  } else if (tasklist[id]["1"] == "form") {
+
+    //Formular erstellen
+    pushForm(tasklist[id]["2"]);
+
+  } else if (tasklist[id]["1"] == "textImportant") {
+
+    //Wichtigen Text ausgeben
+    pushTextImportant(tasklist[id]["2"]);
+
+  } else if (tasklist[id]["1"] == "event") {
+
+    //Event erstellen
+    createEvent(tasklist[id]["2"]);
+
+  }
+
+  taskcounter = taskcounter+1;
+}
+
+function pushText(text) {
+
+  wait = "true";
+
+  var typing = new Audio('music/typing.mp3');
+  typing.playbackRate = 2;
+  typing.loop = true;
+  typing.play();
+
+  //Eine neue Linie hinzufügen
+  $( ".text" ).append("<span class='line' id='line" + lines + "'></span><br>");
+
+  //Die Linie animieren - veraltet
+  //$('#line' + lines).textillate({ in: { effect: 'fadeInLeft', delay: 20 } });
+
+  //Buchstaben einzeln
+  var typed = new Typed('#line' + lines, {
+    strings: [text],
+    typeSpeed: 20,
+    showCursor: true,
+    onComplete: (self) => {
+      typing.pause();
+      $(".typed-cursor").remove();
+      setTimeout(function(){wait = "false";}, 200);
+    }
+  });
+
+
+  //Counter der Linien
+  lines = lines+1;
+
+  //Scrollbar immer ganz unten
+  var messageBody = document.querySelector('#outPopUp');
+  messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+
+}
+
+function pushTextImportant(text) {
+
+  wait = "true";
+
+  var typing = new Audio('music/typing.mp3');
+  typing.playbackRate = 2;
+  typing.loop = true;
+  typing.play();
+
+  var alarm = new Audio('music/alarm.wav');
+  typing.playbackRate = 1;
+  alarm.volume = 0.6;
+  alarm.play();
+
+  $( ".text" ).append("<span class='line important' id='line" + lines + "'></span><br>");
+
+  var typed = new Typed('#line' + lines, {
+    strings: [text],
+    typeSpeed: 20,
+    showCursor: true,
+    onComplete: (self) => {
+      typing.pause();
+      $(".typed-cursor").remove();
+      setTimeout(function(){wait = "false";}, 200);
+    }
+  });
+
+
+  //$('#line' + lines).textillate({ in: { effect: 'fadeInLeft', delay: 20 } });
+
+  lines = lines+1;
+
+  //Scrollbar immer ganz unten
+  var messageBody = document.querySelector('#outPopUp');
+  messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+
+}
+
+function pushForm(text) {
+
+  //Gucken, welches Formular vorliegt
+  if(text == "players") {
+
+    //Formular für die Anzahl der Spieler
+    $( ".text" ).append("<span class='line' id='line" + lines + "'>" + "<input class='playerinput playerline' name='playercount' value='" + players + "' type='text'><button class=' playerline playersubmit' onClick='playerSubmit();' type='button'>Weiter</button>" + "</span><br class='playerline'>");
+    $(".playerline").hide();
+    $(".playerline").show();
+
+    lines = lines+1;
+
+  } else if (text == "playerdetails") {
+
+    //Formular für Namen u. Geschlecht
+    var i;
+
+    for (i = 0; i < players; i++) {
+    
+    $( ".text" ).append("<span class='playernameline line' id='line" + lines + "'>" + "Name: <input class='playernameline playername' id='playername"+i+"' name='playername"+i+"'type='text'><select class='playersex playernameline' id='playersex"+i+"' name='playersex"+i+"'><option value='m'>M</option><option value='w'>W</option></select></span><br class='playername'>");
+    
+      $(".playernameline").hide();
+
+    } 
+
+    $(".text").append("<button class='playerpdsubmit playernameline' onClick='pdSubmit();' type='button'>Weiter</button>");
+
+    $(".playernameline").hide();
+
+    $(".playernameline").show();
+
+  } else if (text == "event") {
+
+    //"Weiter"-Button nach einem Event
+    $( ".text" ).append("<button class='eventend' onClick='eventEnd();' type='button'>Weiter</button>" + "</span><br class='eventend'>");
+    $(".eventend").hide();
+    $(".eventend").show();
+
+  }
+
+  //Scrollbar immer ganz unten
+  var messageBody = document.querySelector('#outPopUp');
+  messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+
+}
+
+//Wenn die Anzahl der Spieler eingegeben wurde
+function playerSubmit() {
+
+    players = $(".playerinput").val();
+    $(".playerline").remove();
+
+    addTask("text", "Ihr seid also ganze " + players + " Spieler? Na das kann ja was werden...");
+    addTask("textImportant", "Nun gut, jetzt muss ich noch eure Namen und eure Geschlechter wissen:");
+    //Nach den Namen fragen
+    addTask("form", "playerdetails");
+
+}
+
+//Wenn die Namen etc eingegeben wurden
+function pdSubmit() {
+
+  for (i = 0; i < players; i++) {  
+
+    //Array pd (playerdetails) für jeden Spieler erstellen
+    var pd = [];
+
+    pd["id"] = i;
+    pd["name"] = $("#playername"+i).val();
+    pd["sex"] = $("#playersex"+i).val();
+    pd["drinks"] = 0;
+    pd["runaway"] = 0;
+
+    //Dieses Array in p einfügen
+    p[i] = pd;
+
+  }
+
+  console.log(p);
+
+  var text;
+
+  for (i = 0; i < p.length; i++) {  
+
+    if (i == p.length-1) {
+      text = text + "und " + p[i]["name"];
+    } else if (i == p.length-2) {
+      text = text + p[i]["name"] + " ";
+    } else {
+      text = text + p[i]["name"] + ", ";
+    }
+
+  }
+
+  //Forumlar entfernen
+  $(".playernameline").remove();
+  $(".playersex").remove();
+  $(".playername").remove();
+  $(".playerpdsubmit").remove();
+
+  addTask("text", "Also begaben sich die Gefährten " + text.replace('undefined','') + " auf eine Reise in das Ungewisse.");
+
+  //Das erste Event starten
+  addTask("event");
+
+}
+
+//Wenn "Weiter" nach einem Event betätigt wird
+function eventEnd() {
+
+  $(".eventend").remove();
+  //Neues Event starten
+  addTask("event");
+  
+}
+
+//Funktion zum Mischen von Arrays
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
+</script>
+
+</body>
+
+</html>

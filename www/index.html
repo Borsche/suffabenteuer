@@ -24,47 +24,53 @@
 
 <body>
 
-<div id="dialog-message" title="Credits">
-  <p>
-    Vielen Dank:
-  </p>
-  <p>
-    Kevin MacLeod (incompetech.com) für:<br>
-    "Adventure Meme" <br>
-    Licensed under Creative Commons: By Attribution 3.0 License
-    http://creativecommons.org/licenses/by/3.0/
-  </p>
-  <p>
-    Lettering.js <br>
-    http://letteringjs.com/
-  </p>
-  <p>
-    Typed.js <br>
-    https://mattboldt.com/demos/typed-js/
-  </p>
-</div>
+<div class="body-background"></div>
 
-<div class="background layer1"></div>
-<div class="background layer2"></div>
-<div class="background layer3"></div>
-<div class="background layer4"></div>
-<div class="background layer5"></div>
+<div class="game-wrapper">
 
-<div class="container" id="outPopUp">
-
-  <div class="header">
-
-    <span class="header-text"></span>
-
+  <div id="dialog-message" title="Credits">
+    <p>
+      Vielen Dank:
+    </p>
+    <p>
+      Kevin MacLeod (incompetech.com) für:<br>
+      "Adventure Meme" <br>
+      Licensed under Creative Commons: By Attribution 3.0 License
+      http://creativecommons.org/licenses/by/3.0/
+    </p>
+    <p>
+      Lettering.js <br>
+      http://letteringjs.com/
+    </p>
+    <p>
+      Typed.js <br>
+      https://mattboldt.com/demos/typed-js/
+    </p>
   </div>
 
-  <div class="text">
+  <div class="background layer1"></div>
+  <div class="background layer2"></div>
+  <div class="background layer3"></div>
+  <div class="background layer4"></div>
+  <div class="background layer5"></div>
+
+  <div class="container" id="outPopUp">
+
+    <div class="header">
+
+      <span class="header-text">SuffAbenteuer</span>
+
+    </div>
+
+    <div class="text">
 
 
+    </div>
+
+  <div class="block">
   </div>
 
-<div class="block">
-</div>
+  </div>
 
 </div>
 
@@ -73,7 +79,7 @@
 //Anfangsvariablen initiieren und festlegen
 
   //Version
-  version = "0.2";
+  version = "0.3";
   
   //Nicht ändern
   taskcounter = 0;
@@ -84,6 +90,7 @@
   layer3 = false;
   layer4 = false;
   layer5 = false;
+  var wait;
 
   //Standardspieleranzahl
   players = 5;
@@ -106,27 +113,27 @@ $(document).ready(function(){
   //Funktion zum Starten des Spiels
   initialize();
 
-  //Animation des Headers
-  //$('.header-text').textillate({ in: { effect: 'fadeInLeft', delay: 20 } });
-
-    var typed = new Typed('.header-text', {
-    strings: [" SuffAbenteuer "],
-    typeSpeed: 10,
-    showCursor: false
-    });
-
   //Ausführen von Tasks alle x Millisekunden
   setInterval(function() {
 
     //Gucken, ob es noch Tasks auszuführen gibt
     if (tasklist.length > taskcounter) {
-      doTask(taskcounter);
+      if (wait == "true") {
+
+      } else {
+        doTask(taskcounter);
+      }
     }
+
+    audio.play();
+
+  var messageBody = document.querySelector('#outPopUp');
+  messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
 
   //Animation des Hintergrundes
   //animateBackground();
     
-  }, 2000);
+  }, 20);
 
 
 });  
@@ -303,11 +310,11 @@ function createEvent(id) {
     name = Math.floor((Math.random() * p.length) + 1)-1;
     addTask("text", "Ein großes Schild mit der Aufschrift 'Freudenhaus' taucht um die Ecke auf.");
     console.log(p[name]["name"] + " nosex = " + p[name]["nosex"]);
-    if(p[name]["nosex"] == true) {
+    if(p[name]["nosex"] == "true") {
         addTask("text", p[name]["name"] + " wird total traurig, da er aufgrund seiner Lähmung impotent ist.");
         addTask("textImportant", p[name]["name"] + " trinkt einen Schluck!");
     } else {
-      addTask("text", p[name]["name"] + " sprintet los und betritt das Freundenhaus.");
+      addTask("text", p[name]["name"] + " sprintet los und betritt das Freudenhaus.");
       addTask("text", "Und "+  p[name]["name"] + " legt los...");
       addTask("text", "...");
       addTask("text", "...");
@@ -415,6 +422,8 @@ function doTask(id) {
 
 function pushText(text) {
 
+  wait = "true";
+
   var typing = new Audio('music/typing.mp3');
   typing.playbackRate = 2;
   typing.loop = true;
@@ -429,11 +438,12 @@ function pushText(text) {
   //Buchstaben einzeln
   var typed = new Typed('#line' + lines, {
     strings: [text],
-    typeSpeed: 10,
+    typeSpeed: 20,
     showCursor: true,
     onComplete: (self) => {
       typing.pause();
       $(".typed-cursor").remove();
+      setTimeout(function(){wait = "false";}, 200);
     }
   });
 
@@ -449,29 +459,31 @@ function pushText(text) {
 
 function pushTextImportant(text) {
 
+  wait = "true";
+
   var typing = new Audio('music/typing.mp3');
   typing.playbackRate = 2;
   typing.loop = true;
   typing.play();
 
   var alarm = new Audio('music/alarm.wav');
-  typing.playbackRate = 2;
-  alarm.volume = 0.4;
-  alarm.loop = true;
+  typing.playbackRate = 1;
+  alarm.volume = 0.6;
   alarm.play();
 
   $( ".text" ).append("<span class='line important' id='line" + lines + "'></span><br>");
 
   var typed = new Typed('#line' + lines, {
     strings: [text],
-    typeSpeed: 10,
+    typeSpeed: 20,
     showCursor: true,
     onComplete: (self) => {
       typing.pause();
-      alarm.pause();
       $(".typed-cursor").remove();
+      setTimeout(function(){wait = "false";}, 200);
     }
   });
+
 
   //$('#line' + lines).textillate({ in: { effect: 'fadeInLeft', delay: 20 } });
 

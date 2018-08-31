@@ -109,6 +109,16 @@ html, body {
 	color: #48dbfb;
 	background: rgba(60,41,54,0.6);
 }
+.animationtoggle {
+	float: left;
+}
+.soundtoggle {
+	float: right;
+}
+.animationtoggle:hover, .soundtoggle:hover {
+	cursor: pointer;
+	color: #48dbfb;
+}
 .background {
 	height: 100%;
 	width: 100%;
@@ -117,6 +127,7 @@ html, body {
 	left:0;
 	background-size: cover;
 	background-repeat: repeat-x;
+	background-position-x: 0px;
 }
 .layer1 {
 	z-index: 1;
@@ -146,7 +157,8 @@ html, body {
 	color: #48dbfb;
 }
 
-@media only screen and (max-width: 1080px) {
+
+@media only screen and (max-width: 720px) {
 	.game-wrapper {
 	    width: 100%;
 	}
